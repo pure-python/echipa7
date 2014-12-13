@@ -1,6 +1,78 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3">
+      <div class="ui card">
+          <div class="image">
+            <img src="{{ profile.avatar_url }}">
+          </div>
+          <div class="content">
+            <a class="header">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+            <div class="meta">
+              <span class="date">Joined in 2014</span>
+            </div>
+            
+          </div>
+           <div class="extra content">
+            <a class="right floated created">
+              {{ profile.date_of_birth }}
+            </a>
+            <a class="friends">
+              <i class="user icon"></i>
+              22 Friends
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        
+        
+      </div>
+      <div class="col-sm-2"><div class="ui vertical menu">
+          <a class="active teal item">
+            Inbox
+            <div class="ui teal label">1</div>
+          </a>
+          <a class="item">
+            Spam
+            <div class="ui label">51</div>
+          </a>
+          <a class="item">
+            Updates
+            <div class="ui label">1</div>
+          </a>
+          <div class="item">
+            <div class="ui transparent icon input">
+              <input placeholder="Search mail..." type="text">
+              <i class="search icon"></i>
+            </div>
+          </div>
+        </div>
+        {% if user == profile.user %}
+          <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
+        {% endif %} </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
   <h1>Profile</h1>
   <img width="100px" src="{{ profile.avatar_url }}"/>
   <table>
@@ -21,5 +93,5 @@
   {% if user == profile.user %}
     <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
   {% endif %}
-
+-->
 {% endblock %}
