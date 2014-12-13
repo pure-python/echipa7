@@ -112,7 +112,7 @@ def logout_view(request):
 @login_required
 def profile_view(request, user):
     search_form = SearchForm()
-    posts = UserPost.objects.all()
+    posts = UserPost.objects.filter(author = request.user)
     visited_person = User.objects.get(username = user)
     ok = False
     for friend in request.user.profile.friends.all():
