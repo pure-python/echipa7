@@ -3,9 +3,6 @@
    verde: #a1b963;
  */
 
-* {
-	border-radius: 0!important;
-}
 
 .container {
 	max-width: 1000px; /* micsoram latimea continutului */
