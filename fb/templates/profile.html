@@ -13,7 +13,7 @@
             <div class="meta">
               <span class="date">Joined in 2014</span>
             </div>
-            
+
           </div>
            <div class="extra content">
             <a class="right floated created">
@@ -27,8 +27,10 @@
         </div>
       </div>
       <div class="col-sm-7">
-        
-        
+        {% for friend in profile.user.friend %}
+          {{ friend.username }}
+        {% endfor %}
+
       </div>
       <div class="col-sm-2"><div class="ui vertical menu">
           <a class="active teal item">
@@ -52,6 +54,15 @@
         </div>
         {% if user == profile.user %}
           <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
+        {% else %}
+        {% if ok == False%}
+        <form method="POST" action="{% url 'profile' profile.user.username %}">
+        {% csrf_token %}
+          <button type="submit">Add Friend</button>
+        </form>
+        {% else %}
+          <div>This person is your friend!</div>
+        {% endif %}
         {% endif %} </div>
 
     </div>

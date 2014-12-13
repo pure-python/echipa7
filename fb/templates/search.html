@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <br><br><br><h1> {% if users or posts %}  Search result ...{% else %} No results {% endif %} </h1>
+
+  <div class="posts">
+  {% for user in users %}
+    <div class="media">
+      <a class="media-left" href="#">
+        <img src="{{ user.avatar_url }}">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <a href="{% url 'profile' user.user %}">
+            {{user.user}}
+          </a>
+        </h4>
+      </div>
+    </div>
+  {% endfor %}
+
+   {% for post in posts %}
+    <div class="media">
+      <a class="media-left" href="#">
+        <img src="{{ post.author.profile.avatar_url }}">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <a href="{% url 'post_details' post.pk %}">
+          {{ post.text}}
+          </a>
+          {% if post.img %}
+          <img src="{{ post.img.url }}"/>
+          {% endif %}
+        </h4>
+        <a href="{% url 'profile' post.author.username %}">
+            <b><small>{{ post.author.username }}</small></b></a>
+        on <b><small>{{ post.date_added }}</small></b>
+      </div>
+    </div>
+  {% endfor %}
+
+  </div>
+{% endblock %}
