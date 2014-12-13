@@ -144,6 +144,13 @@
 
     </div>
 
+{% for album in albums %}
+  {{album.title}}
+  {% for image in album.images.all %}
+      <img src="{{ image.image.url }}" width="100" height="100">
+  {% endfor %}
+{% endfor %}
+
 <!--
     {% if user == profile.user %}
           <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
