@@ -22,4 +22,5 @@ urlpatterns = patterns(
     url(r'^profile/(?P<user>\w+)/edit$', edit_profile_view,
         name='edit_profile'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
