@@ -45,7 +45,7 @@ class UserProfile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDERS, default='-')
     avatar = models.ImageField(upload_to='images/', blank=False, null=True)
-
+    friends = models.ManyToManyField(User,related_name='my_friends')
     user = models.OneToOneField(User, related_name='profile')
 
     @property
