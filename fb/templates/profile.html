@@ -24,7 +24,7 @@
             <div class="content">
               <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
               <div class="meta">
-                <span class="date">Joined in 2014</span>
+                <span class="date">{{ profile.gender }}</span>
               </div>
             </div>
              <div class="extra content">
@@ -33,7 +33,7 @@
               </span>
               <span class="friends">
                 <span class="glyphicon glyphicon-user"></span>
-                22 Friends
+                {{ user.profile.friends.count }}
               </span>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <div class="content">
               <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
               <div class="meta">
-                <span class="date">Joined in 2014</span>
+                <span class="date">{{profile.gender}}</span>
               </div>
             </div>
              <div class="extra content">
@@ -55,7 +55,7 @@
               </span>
               <span class="friends">
                 <span class="glyphicon glyphicon-user"></span>
-                22 Friends
+                {{ user.profile.friends.count }}
               </span>
             </div>
           </div>
@@ -121,11 +121,11 @@
         <div class="ui vertical menu">
           <a class="active teal item">
             Profile
-            <div class="ui teal label">1</div>
+            
           </a>
           <a class="item">
             About
-            <div class="ui label">51</div>
+            
           </a>
           <a class="item">
             Photos
@@ -133,7 +133,7 @@
           </a>
           <a class="item">
             Friends
-            <div class="ui label">167</div>
+            <div class="ui label">{{ user.profile.friends.count }}</div>
           </a>
           
         </div>

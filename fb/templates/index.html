@@ -51,13 +51,11 @@
                   </div>
                 </div>
               </div>
-              <img src="{{ profile.avatar_url }}">
+              <img src="{{ user.profile.avatar_url }}">
             </div>
             <div class="content">
-              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-              <div class="meta">
-                <span class="date">Joined in 2014</span>
-              </div>
+              <a class="header" href="{% url 'profile' user.username %}">{{ user.first_name }} {{ user.last_name }}</a>
+             
             </div>
              <div class="extra content">
               <span class="right floated created">
@@ -65,7 +63,7 @@
               </span>
               <span class="friends">
                 <span class="glyphicon glyphicon-user"></span>
-                22 Friends
+                {{ user.profile.friends.count }}
               </span>
             </div>
           </div>
@@ -73,13 +71,11 @@
         {% else %}
           <div class="ui card">
             <div class="image">
-              <img src="{{ profile.avatar_url }}">
+              <img src="{{ user.profile.avatar_url }}">
             </div>
             <div class="content">
-              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-              <div class="meta">
-                <span class="date">Joined in 2014</span>
-              </div>
+              <a class="header" href="{% url 'profile' user.username %}">{{ user.first_name }} {{ user.last_name }}</a>
+              
             </div>
              <div class="extra content">
               <span class="right floated created">
@@ -87,7 +83,7 @@
               </span>
               <span class="friends">
                 <span class="glyphicon glyphicon-user"></span>
-                22 Friends
+                {{ user.profile.friends.count }}
               </span>
             </div>
           </div>
