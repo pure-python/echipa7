@@ -11,9 +11,12 @@
 	max-width: 1000px; /* micsoram latimea continutului */
 }
 
+#main-container{
+	margin-top: 20px;
+}
 .navbar-default {
 	border: 0;
-	background-color: #c03; 
+	background-color: #00b5ad; 
 }
 
 /* logo */
@@ -35,7 +38,7 @@
 .navbar-default .navbar-nav > li > a:hover, 
 .navbar-default .navbar-nav > li > a:focus {
 	color: #fff;
-	background-color: #d03;
+	background-color: #00c4bc;
 }
 
 /* Deoarece .navbar-fixed-top are position: fixed
@@ -46,15 +49,7 @@ body {
 	padding-top: 50px;
 }
 
-.btn-primary {
-	border-color: transparent!important;
-	background-color: #a1b963;
-}
 
-.btn-primary:hover, 
-.btn-primary:focus {
-	background-color: #82a74c;
-}
 
 /* :before si :after sunt pseudo-clase ele adauga 
    continut in html.

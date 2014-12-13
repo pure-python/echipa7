@@ -4,56 +4,148 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3">
-      <div class="ui card">
-          <div class="image">
-            <img src="{{ profile.avatar_url }}">
-          </div>
-          <div class="content">
-            <a class="header">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-            <div class="meta">
-              <span class="date">Joined in 2014</span>
+      
+      {% if ok == False%}
+        <div class="ui special cards">
+          <div class="card">
+            <div class="dimmable image">
+              <div class="ui inverted dimmer">
+                <div class="content">
+                  <div class="center">
+                    <form method="POST" action="{% url 'profile' profile.user.username %}">
+                    {% csrf_token %}
+                    <button class="ui primary button" type="Submit">Add Friend</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <img src="{{ profile.avatar_url }}">
             </div>
-
-          </div>
-           <div class="extra content">
-            <a class="right floated created">
-              {{ profile.date_of_birth }}
-            </a>
-            <a class="friends">
-              <i class="user icon"></i>
-              22 Friends
-            </a>
+            <div class="content">
+              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+              <div class="meta">
+                <span class="date">Joined in 2014</span>
+              </div>
+            </div>
+             <div class="extra content">
+              <span class="right floated created">
+                {{ profile.date_of_birth }}
+              </span>
+              <span class="friends">
+                <span class="glyphicon glyphicon-user"></span>
+                22 Friends
+              </span>
+            </div>
           </div>
         </div>
+        {% else %}
+          <div class="ui card">
+            <div class="image">
+              <img src="{{ profile.avatar_url }}">
+            </div>
+            <div class="content">
+              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+              <div class="meta">
+                <span class="date">Joined in 2014</span>
+              </div>
+            </div>
+             <div class="extra content">
+              <span class="right floated created">
+                {{ profile.date_of_birth }}
+              </span>
+              <span class="friends">
+                <span class="glyphicon glyphicon-user"></span>
+                22 Friends
+              </span>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if user == profile.user %}
+          <a href="{% url 'edit_profile' profile.user.username %}" class="fluid ui button">Edit profile</a>
+        {% endif %} 
       </div>
       <div class="col-sm-7">
-    </div>
-        {% for friend in profile.friends.all %}
-        <a href="{% url 'profile' friend.username %}">{{ friend.username}}</a>
-        {% endfor %}
 
+      <p class="lead">Recent activity</p>
+      <hr />
+        <div class="ui feed">
+        {% for post in posts %}
+          <div class="event">
+            <div class="label">
+              <a href="{% url 'profile' post.author.username %}">
+                <img src="{{ post.author.profile.avatar_url }}">
+              </a>  
+            </div>
+            <div class="content">
+              <div class="summary">
+                <a href="{% url 'profile' post.author.username %}" class="user">
+                  {{ post.author.username }}
+                </a>
+                added a new <a href="{% url 'post_details' post.pk %}">post</a>
+                <div class="date">
+                  {{ post.date_added }}
+                </div>
+              </div>
+              <div class="extra text">
+                {{ post.text}}
+              </div>
+              <div class="extra images">
+                {% if post.img %}
+                  <img src="{{ post.img.url }}" />
+                {% endif %}
+              </div>
+              <div class="meta">
+                <a class="like" href="{% url 'like' post.pk %}?next_url={% url 'profile' user.username %}">
+                  <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  Like
+                </a>
+                {% if post.likers.count %}
+                  Who likes this:
+                    {% for liker in post.likers.all %}
+                     {{ liker.first_name }}
+                     {{ liker.last_name }}
+                     {% if not forloop.last %}
+                       ,
+                     {% endif %}
+                    {% endfor %}
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
 
-      <div class="col-sm-2"><div class="ui vertical menu">
+      </div>
+      <div class="col-sm-2">
+        <div class="ui vertical menu">
           <a class="active teal item">
-            Inbox
+            Profile
             <div class="ui teal label">1</div>
           </a>
           <a class="item">
-            Spam
+            About
             <div class="ui label">51</div>
           </a>
           <a class="item">
-            Updates
+            Photos
             <div class="ui label">1</div>
           </a>
-          <div class="item">
-            <div class="ui transparent icon input">
-              <input placeholder="Search mail..." type="text">
-              <i class="search icon"></i>
-            </div>
-          </div>
+          <a class="item">
+            Friends
+            <div class="ui label">167</div>
+          </a>
+          
         </div>
-        {% if user == profile.user %}
+         
+        </div>
+
+      </div>
+
+    </div>
+
+<!--
+    {% if user == profile.user %}
           <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
         {% else %}
         {% if ok == False%}
@@ -64,11 +156,15 @@
         {% else %}
           <div>This person is your friend!</div>
         {% endif %}
-        {% endif %} </div>
+        {% endif %}
 
-    </div>
-  </div>
+-->
+<!--
 
+  {% for friend in profile.friends.all %}
+        <a href="{% url 'profile' friend.username %}">{{ friend.username}}</a>
+  {% endfor %}
+-->
 
 
 

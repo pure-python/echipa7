@@ -112,7 +112,7 @@ def logout_view(request):
 @login_required
 def profile_view(request, user):
     search_form = SearchForm()
-    profile = UserProfile.objects.get(user__username=user)
+    posts = UserPost.objects.all()
     visited_person = User.objects.get(username = user)
     ok = False
     for friend in request.user.profile.friends.all():
@@ -121,7 +121,8 @@ def profile_view(request, user):
     context = {
         'search_form': search_form,
         'profile': visited_person.profile,
-        'ok': ok
+        'ok': ok,
+        'posts' : posts,
     }
     if request.method == 'GET':
         return render(request, 'profile.html', context)
@@ -177,4 +178,7 @@ def like_view(request, pk):
     post = UserPost.objects.get(pk=pk)
     post.likers.add(request.user)
     post.save()
-    return redirect(reverse('post_details', args=[post.pk]))
+    if 'next_url' in request.GET:
+        return redirect(request.GET.get('next_url'))
+    else:
+        return redirect(reverse('post_details', args=[post.pk]))

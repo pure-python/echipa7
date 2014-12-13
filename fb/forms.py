@@ -11,11 +11,21 @@ class UserPostForm(ModelForm):
     class Meta:
         model = UserPost
         fields = ('text', 'img')
+        widgets = {
+            'text' : Textarea(attrs={
+                    'class' : 'form-control',
+                    'placeholder' : "What's on your mind?",
+                    'rows' : 1,
+                })
+        }
 
 
 class SearchForm(Form):
     q = CharField(widget=TextInput(
-        attrs={'placeholder': "Search ..."}))
+        attrs={
+            'placeholder': "Search",
+            'class' : 'form-control',
+        }))
 
 
 class UserPostCommentForm(Form):

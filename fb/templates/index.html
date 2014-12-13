@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <h1>News feed</h1>
-
   
+
+ <!-- 
   <form class="form-horizontal" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
@@ -18,26 +18,152 @@
     </div>
   </form>
 
-  <div class="posts">
-  {% for post in posts %}
-    <div class="media">
-      <a class="media-left" href="#">
-        <img src="{{ post.author.profile.avatar_url }}">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">
-          <a href="{% url 'post_details' post.pk %}">
-          {{ post.text}}
-          </a>
-          {% if post.img %}
-          <img src="{{ post.img.url }}"/>
-          {% endif %}
-        </h4>
-        <a href="{% url 'profile' post.author.username %}">
-            <b><small>{{ post.author.username }}</small></b></a>
-        on <b><small>{{ post.date_added }}</small></b>
+
+  <form role="form" class="form-horizontal" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <div class="col-sm-9">
+        {{form.text}}  
+      </div>
+      <div class="col-sm-3">
+        {{form.img}}  
+      </div>
+      
+    </div>
+  </form>
+-->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+
+        {% if ok == False%}
+        <div class="ui special cards">
+          <div class="card">
+            <div class="dimmable image">
+              <div class="ui inverted dimmer">
+                <div class="content">
+                  <div class="center">
+                    <form method="POST" action="{% url 'profile' profile.user.username %}">
+                    {% csrf_token %}
+                    <button class="ui primary button" type="Submit">Add Friend</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <img src="{{ profile.avatar_url }}">
+            </div>
+            <div class="content">
+              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+              <div class="meta">
+                <span class="date">Joined in 2014</span>
+              </div>
+            </div>
+             <div class="extra content">
+              <span class="right floated created">
+                {{ profile.date_of_birth }}
+              </span>
+              <span class="friends">
+                <span class="glyphicon glyphicon-user"></span>
+                22 Friends
+              </span>
+            </div>
+          </div>
+        </div>
+        {% else %}
+          <div class="ui card">
+            <div class="image">
+              <img src="{{ profile.avatar_url }}">
+            </div>
+            <div class="content">
+              <a class="header" href="{% url 'profile' user.username %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+              <div class="meta">
+                <span class="date">Joined in 2014</span>
+              </div>
+            </div>
+             <div class="extra content">
+              <span class="right floated created">
+                {{ profile.date_of_birth }}
+              </span>
+              <span class="friends">
+                <span class="glyphicon glyphicon-user"></span>
+                22 Friends
+              </span>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if user == profile.user %}
+          <a href="{% url 'edit_profile' profile.user.username %}" class="fluid ui button">Edit profile</a>
+        {% endif %} 
+
+      </div>
+      <div class="col-md-10">
+      <h3>News feed</h3>
+
+        <form role="form" class="form-horizontal" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <div class="col-sm-9">
+              {{form.text}} 
+              {{form.img}}  
+            </div>
+            <div class="col-sm-3">
+              
+              <button type="button" class="btn btn-primary">Default</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="ui feed">
+        {% for post in posts %}
+          <div class="event">
+            <div class="label">
+              <a href="{% url 'profile' post.author.username %}">
+                <img src="{{ post.author.profile.avatar_url }}">
+              </a>  
+            </div>
+            <div class="content">
+              <div class="summary">
+                <a href="{% url 'profile' post.author.username %}" class="user">
+                  {{ post.author.username }}
+                </a>
+                added a new <a href="{% url 'post_details' post.pk %}">post</a>
+                <div class="date">
+                  {{ post.date_added }}
+                </div>
+              </div>
+              <div class="extra text">
+                {{ post.text}}
+              </div>
+              <div class="extra images">
+                {% if post.img %}
+                  <img src="{{ post.img.url }}" />
+                {% endif %}
+              </div>
+              <div class="meta">
+                <a class="like" href="{% url 'like' post.pk %}?next_url={% url 'profile' user.username %}">
+                  <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  Like
+                </a>
+                {% if post.likers.count %}
+                  Who likes this:
+                    {% for liker in post.likers.all %}
+                     {{ liker.first_name }}
+                     {{ liker.last_name }}
+                     {% if not forloop.last %}
+                       ,
+                     {% endif %}
+                    {% endfor %}
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
-  {% endfor %}
   </div>
+
+
 {% endblock %}
