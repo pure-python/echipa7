@@ -7,18 +7,20 @@ System prerequisites
 --------------------
 
 1. Install pip:
-  
+
   ```
   wget https://bootstrap.pypa.io/get-pip.py
   sudo python get-pip.py
   ```
 
-2. Install Django 1.6: 
+2. Install Django 1.6:
 
   ```
   sudo pip install Django==1.6.2
   ```
-  
+3. SMTP pentru test
+
+  sudo python -m smtpd -n -c DebuggingServer localhost:1023
 Project installation
 --------------------
 
@@ -34,7 +36,7 @@ Project installation
   cd purepython-project
   ./manage.py syncdb
   ```
-  
+
 3. Run development server:
 
   ```
