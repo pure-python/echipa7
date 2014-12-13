@@ -130,7 +130,8 @@ def profile_view(request, user):
         return render(request, 'profile.html', context)
     else:
         friend = User.objects.get(username = user)
-        request.user.profile.friends.add(friend)
+        request.user.profile.friends.add(visited_person)
+        visited_person.profile.friends.add(request.user)
         return redirect(reverse('profile', args=[user]))
 
 

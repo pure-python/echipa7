@@ -47,6 +47,8 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to='images/', blank=False, null=True)
     friends = models.ManyToManyField(User,related_name='my_friends')
     user = models.OneToOneField(User, related_name='profile')
+    def __unicode__(self):
+        return self.user.username
 
     @property
     def avatar_url(self):
@@ -57,6 +59,8 @@ class Album(models.Model):
     public = models.BooleanField(default = True)
 
     user = models.ForeignKey(User, null = True, blank = True, related_name = 'albums')
+    def __unicode__(self):
+        return self.title
 
 
 class Image(models.Model):
@@ -65,6 +69,8 @@ class Image(models.Model):
     date_added = models.DateTimeField(auto_now_add = True)
 
     album = models.ForeignKey(Album, blank = True, related_name = 'images')
+    def __unicode__(self):
+        return self.title
 
 
 @receiver(post_save, sender=User)
