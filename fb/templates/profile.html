@@ -27,11 +27,12 @@
         </div>
       </div>
       <div class="col-sm-7">
-        {% for friend in profile.user.friend %}
-          {{ friend.username }}
+    </div>
+        {% for friend in profile.friends.all %}
+        <a href="{% url 'profile' friend.username %}">{{ friend.username}}</a>
         {% endfor %}
 
-      </div>
+
       <div class="col-sm-2"><div class="ui vertical menu">
           <a class="active teal item">
             Inbox
