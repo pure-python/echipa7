@@ -1,14 +1,16 @@
 from django.forms import (
     Form, CharField, Textarea, PasswordInput, ChoiceField, DateField,
-    ImageField,
+    ImageField, ModelForm
 )
 
-from fb.models import UserProfile
+from fb.models import UserProfile, UserPost
 
 
-class UserPostForm(Form):
-    text = CharField(widget=Textarea(
-        attrs={'rows': 1, 'cols': 40, 'class': 'form-control','placeholder': "What's on your mind?"}))
+class UserPostForm(ModelForm):
+
+    class Meta:
+        model = UserPost
+        fields = ('text', 'img')
 
 
 class UserPostCommentForm(Form):

@@ -29,6 +29,9 @@
           <a href="{% url 'post_details' post.pk %}">
           {{ post.text}}
           </a>
+          {% if post.img %}
+          <img src="{{ post.img.url }}"/>
+          {% endif %}
         </h4>
         <a href="{% url 'profile' post.author.username %}">
             <b><small>{{ post.author.username }}</small></b></a>

@@ -3,6 +3,9 @@
 
 {% block content %}
   <h3>{{ post.text }}</h3>
+  {% if post.img %}
+  <img src="{{ post.img.url }}"/>
+  {% endif %}
   by <b><small>{{ post.author }}</small></b> on <b><small>{{ post.date_added }}</small></b>
   <br>
 

@@ -9,6 +9,8 @@ from django.conf import settings
 class UserPost(models.Model):
     text = models.TextField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(
+        upload_to='images/', blank=True, null=True)
 
     author = models.ForeignKey(User, related_name='posts')
     likers = models.ManyToManyField(User, related_name='liked_posts')

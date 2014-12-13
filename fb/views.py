@@ -17,11 +17,11 @@ def index(request):
     if request.method == 'GET':
         form = UserPostForm()
     elif request.method == 'POST':
-        form = UserPostForm(request.POST)
+        form = UserPostForm(request.POST, request.FILES or None)
         if form.is_valid():
-            text = form.cleaned_data['text']
-            post = UserPost(text=text, author=request.user)
-            post.save()
+            user_post = form.save(commit=False)
+            user_post.author=request.user
+            user_post.save()
 
     context = {
         'posts': posts,
