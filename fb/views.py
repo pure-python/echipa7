@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponseForbidden
@@ -106,11 +107,23 @@ def logout_view(request):
 def profile_view(request, user):
     search_form = SearchForm()
     profile = UserProfile.objects.get(user__username=user)
+    visited_person = User.objects.get(username = user)
+    ok = False
+    for friend in request.user.profile.friends.all():
+        if friend == visited_person:
+            ok = True
     context = {
-        'profile': profile,
         'search_form': search_form,
+        'profile': visited_person.profile,
+        'ok': ok
     }
-    return render(request, 'profile.html', context)
+    if request.method == 'GET':
+        return render(request, 'profile.html', context)
+    else:
+        friend = User.objects.get(username = user)
+        request.user.profile.friends.add(friend)
+        return redirect(reverse('profile', args=[user]))
+
 
 
 @login_required

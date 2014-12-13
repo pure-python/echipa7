@@ -52,6 +52,15 @@
         </div>
         {% if user == profile.user %}
           <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
+        {% else %}
+        {% if ok == False%}
+        <form method="POST" action="{% url 'profile' profile.user.username %}">
+        {% csrf_token %}
+          <button type="submit">Add Friend</button>
+        </form>
+        {% else %}
+          <div>This person is your friend!</div>
+        {% endif %}
         {% endif %} </div>
 
     </div>
