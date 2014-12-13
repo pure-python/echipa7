@@ -36,13 +36,19 @@ def index(request):
 @login_required
 def search_view(request):
     search_form = SearchForm()
+    context = {
+        'search_form': search_form
+    }
     if request.method == 'GET':
         q = request.GET.get('q')
-        users = UserProfile.objects.filter(user__username__contains=q)
-        context = {
-            'users': users,
-            'search_form': search_form,
-        }
+        if q:
+            users = UserProfile.objects.filter(user__username__contains=q)
+            posts = UserPost.objects.filter(text__contains=q)
+            context = {
+                'users': users,
+                'posts':posts,
+                'search_form': search_form,
+            }
 
     return render(request, 'search.html', context)
 
