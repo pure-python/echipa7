@@ -7,33 +7,49 @@ from django.http import HttpResponseForbidden
 
 from fb.models import UserPost, UserPostComment, UserProfile
 from fb.forms import (
-    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm,
+    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm, SearchForm
 )
 
 
 @login_required
 def index(request):
     posts = UserPost.objects.all()
+    search_form = SearchForm()
     if request.method == 'GET':
         form = UserPostForm()
     elif request.method == 'POST':
         form = UserPostForm(request.POST, request.FILES or None)
         if form.is_valid():
             user_post = form.save(commit=False)
-            user_post.author=request.user
+            user_post.author = request.user
             user_post.save()
 
     context = {
         'posts': posts,
         'form': form,
+        'search_form': search_form,
     }
     return render(request, 'index.html', context)
 
 
 @login_required
+def search_view(request):
+    search_form = SearchForm()
+    if request.method == 'GET':
+        q = request.GET.get('q')
+        users = UserProfile.objects.filter(user__username__contains=q)
+        context = {
+            'users': users,
+            'search_form': search_form,
+        }
+
+    return render(request, 'search.html', context)
+
+
+@login_required
 def post_details(request, pk):
     post = UserPost.objects.get(pk=pk)
-
+    search_form = SearchForm()
     if request.method == 'GET':
         form = UserPostCommentForm()
     elif request.method == 'POST':
@@ -51,6 +67,7 @@ def post_details(request, pk):
         'post': post,
         'comments': comments,
         'form': form,
+        'search_form': search_form,
     }
 
     return render(request, 'post_details.html', context)
@@ -87,15 +104,18 @@ def logout_view(request):
 
 @login_required
 def profile_view(request, user):
+    search_form = SearchForm()
     profile = UserProfile.objects.get(user__username=user)
     context = {
         'profile': profile,
+        'search_form': search_form,
     }
     return render(request, 'profile.html', context)
 
 
 @login_required
 def edit_profile_view(request, user):
+    search_form = SearchForm()
     profile = UserProfile.objects.get(user__username=user)
     if not request.user == profile.user:
         return HttpResponseForbidden()
@@ -128,6 +148,7 @@ def edit_profile_view(request, user):
     context = {
         'form': form,
         'profile': profile,
+        'search_form': search_form,
     }
     return render(request, 'edit_profile.html', context)
 

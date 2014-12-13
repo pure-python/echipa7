@@ -18,6 +18,12 @@
           </a>
         </div>
         <div class="collapse navbar-collapse">
+          {% if user.is_authenticated %}
+            <form method="GET" class="form-group" action="{% url 'search' %}">
+              {{ search_form.as_p }}
+              <button type="submit">Search</button>
+            </form>
+          {% endif %}
           <ul class="nav navbar-nav pull-right">
             <li><a href="{% url 'index' %}">News</a></li>
           {% if user.is_authenticated %}

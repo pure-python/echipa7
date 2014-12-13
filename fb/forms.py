@@ -1,6 +1,6 @@
 from django.forms import (
     Form, CharField, Textarea, PasswordInput, ChoiceField, DateField,
-    ImageField, ModelForm
+    ImageField, ModelForm, TextInput
 )
 
 from fb.models import UserProfile, UserPost
@@ -13,9 +13,14 @@ class UserPostForm(ModelForm):
         fields = ('text', 'img')
 
 
+class SearchForm(Form):
+    q = CharField(widget=TextInput(
+        attrs={'placeholder': "Search ..."}))
+
+
 class UserPostCommentForm(Form):
     text = CharField(widget=Textarea(
-        attrs={'rows': 1, 'cols': 50, 'class': 'form-control','placeholder': "Write a comment..."}))
+        attrs={'rows': 1, 'cols': 50, 'class': 'form-control', 'placeholder': "Write a comment..."}))
 
 
 class UserLogin(Form):
