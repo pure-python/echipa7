@@ -114,12 +114,14 @@ def profile_view(request, user):
     search_form = SearchForm()
     posts = UserPost.objects.filter(author = request.user)
     visited_person = User.objects.get(username = user)
+    images =  visited_person.albums.images.all()
     ok = False
     for friend in request.user.profile.friends.all():
         if friend == visited_person:
             ok = True
     context = {
         'search_form': search_form,
+        'images':images,
         'profile': visited_person.profile,
         'ok': ok,
         'posts' : posts,

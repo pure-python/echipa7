@@ -52,6 +52,19 @@ class UserProfile(models.Model):
     def avatar_url(self):
         return self.avatar.url if self.avatar \
             else static(settings.AVATAR_DEFAULT)
+class Album(models.Model):
+    title = models.CharField(max_length = 60)
+    public = models.BooleanField(default = True)
+
+    user = models.ForeignKey(User, null = True, blank = True, related_name = 'albums')
+
+
+class Image(models.Model):
+    title = models.CharField(max_length = 60, blank = True, null = True)
+    image = models.ImageField(upload_to='images/', blank=False, null=True)
+    date_added = models.DateTimeField(auto_now_add = True)
+
+    album = models.ForeignKey(Album, blank = True, related_name = 'images')
 
 
 @receiver(post_save, sender=User)
